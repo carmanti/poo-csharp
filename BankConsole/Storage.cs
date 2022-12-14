@@ -14,14 +14,15 @@ public static class Storage
         if (File.Exists(filePath))
             usersInFile = File.ReadAllText(filePath); //Read lee
 
-        var listUsers = JsonConvert.DeserializeObject<List<User>>(usersInFile);
+        var listUsers = JsonConvert.DeserializeObject<List<object>>(usersInFile);
 
         if (listUsers == null)
-            listUsers = new List<User>();
+            listUsers = new List<object>();
 
         listUsers.Add(user);
+        JsonSerializerSettings settings = new JsonSerializerSettings { Formatting = Formatting.Indented };
 
-        json = JsonConvert.SerializeObject(listUsers);
+        json = JsonConvert.SerializeObject(listUsers, settings);
 
         File.WriteAllText(filePath, json); // Write escribe
 
